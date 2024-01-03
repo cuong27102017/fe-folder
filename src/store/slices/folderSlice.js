@@ -25,7 +25,7 @@ const folderSlice = createSlice({
       }
       state.forEach((folder) => {
         if (folder.parentId === action.payload.id) {
-          folder.parentId = null;
+          folder.parentId = '';
         }
       });
     },
