@@ -19,7 +19,10 @@ import {
   editFolder,
 } from "../../store/slices/folderSlice";
 import { MAX_FOLDER_DEPTH } from "../../constants/FOLDER";
-import { getAllDependencies } from "../../utils/helpers";
+import {
+  getAllDependencies,
+  getDepthLevelById,
+} from "../../utils/helpers";
 
 const FolderForm = ({ folder, folderMetadata, onClose }) => {
   const dispatch = useDispatch();
@@ -34,7 +37,7 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
       setError(true);
       return;
     }
-    if (parentId !== "" && !validateNumberOfChildOfParent(parentId)) {
+    if (parentId !== "" && !validateDepthLevelOfParent(parentId)) {
       setSnackbarMsg("The maximum folder depth level is 10.");
       return;
     }
@@ -62,12 +65,10 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
     onClose();
   };
 
-  const validateNumberOfChildOfParent = useCallback(
+  const validateDepthLevelOfParent = useCallback(
     (parentId) => {
-      if (
-        folders.filter((folder) => folder.parentId === parentId).length ===
-        MAX_FOLDER_DEPTH
-      ) {
+      const depthLevel = getDepthLevelById(folders, parentId);
+      if (depthLevel === MAX_FOLDER_DEPTH) {
         return false;
       }
       return true;

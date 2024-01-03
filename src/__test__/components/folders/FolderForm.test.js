@@ -110,24 +110,25 @@ describe("FolderForm", () => {
     useDispatch.mockReturnValue(mockDispatch);
     const mockFoders = {
       folders: [
-        { id: "1", name: "Folder 1", parentId: "" },
-        { id: "2", name: "Folder 2", parentId: "1" },
-        { id: "3", name: "Folder 3", parentId: "2" },
-        { id: "4", name: "Folder 4", parentId: "" },
-        { id: "5", name: "Folder 5", parentId: "4" },
-        { id: "6", name: "Folder 6", parentId: "1" },
-        { id: "7", name: "Folder 7", parentId: "1" },
-        { id: "8", name: "Folder 8", parentId: "1" },
-        { id: "9", name: "Folder 9", parentId: "1" },
-        { id: "10", name: "Folder 10", parentId: "1" },
-        { id: "11", name: "Folder 11", parentId: "1" },
-        { id: "12", name: "Folder 12", parentId: "1" },
-        { id: "13", name: "Folder 13", parentId: "1" },
-      ],
+        { id: '1', name: "Folder 1", parentId: '' },
+        { id: '2', name: "Folder 1.1", parentId: '1' },
+        { id: '3', name: "Folder 1.1.1", parentId: '2' },
+        { id: '4', name: "Folder 1.1.1.1", parentId: '3' },
+        { id: '5', name: "Folder 1.1.1.1.1", parentId: '4' },
+        { id: '6', name: "Folder 1.1.1.1.1.1", parentId: '5' },
+        { id: '7', name: "Folder 1.1.1.1.1.1.1", parentId: '6' },
+        { id: '8', name: "Folder 1.1.1.1.1.1.1.1", parentId: '7' },
+        { id: '9', name: "Folder 1.1.1.1.1.1.1.1.1", parentId: '8' },
+        { id: '10', name: "Folder 1.1.1.1.1.1.1.1.1.1", parentId: '9' },
+        { id: '11', name: "Folder 1.2", parentId: '1' },
+        { id: '12', name: "Folder 1.3", parentId: '1' },
+        { id: '13', name: "Folder 2", parentId: '' },
+        { id: '14', name: "Folder 2.1", parentId: '12' },
+      ]
     };
     useSelector.mockImplementation((selectorFn) => selectorFn(mockFoders));
     const mockFolderMetadata = {
-      latestId: 13,
+      latestId: 14,
       folderOptions: mockFoders.folders.map((folder) => ({
         id: folder.id,
         name: folder.name,
@@ -148,7 +149,7 @@ describe("FolderForm", () => {
       name: "Parent Folder (optional)",
     });
     fireEvent.mouseDown(selectElement);
-    const selectedOption = screen.getByText("Folder 1");
+    const selectedOption = screen.getByText("Folder 1.1.1.1.1.1.1.1.1.1");
     fireEvent.click(selectedOption);
     fireEvent.click(screen.getByText("Add Folder"));
 
@@ -188,30 +189,31 @@ describe("FolderForm", () => {
     useDispatch.mockReturnValue(mockDispatch);
     const mockFoders = {
       folders: [
-        { id: "1", name: "Folder 1", parentId: "" },
-        { id: "2", name: "Folder 2", parentId: "1" },
-        { id: "3", name: "Folder 3", parentId: "2" },
-        { id: "4", name: "Folder 4", parentId: "" },
-        { id: "5", name: "Folder 5", parentId: "4" },
-        { id: "6", name: "Folder 6", parentId: "1" },
-        { id: "7", name: "Folder 7", parentId: "1" },
-        { id: "8", name: "Folder 8", parentId: "1" },
-        { id: "9", name: "Folder 9", parentId: "1" },
-        { id: "10", name: "Folder 10", parentId: "1" },
-        { id: "11", name: "Folder 11", parentId: "1" },
-        { id: "12", name: "Folder 12", parentId: "1" },
-        { id: "13", name: "Folder 13", parentId: "1" },
-      ],
+        { id: '1', name: "Folder 1", parentId: '' },
+        { id: '2', name: "Folder 1.1", parentId: '1' },
+        { id: '3', name: "Folder 1.1.1", parentId: '2' },
+        { id: '4', name: "Folder 1.1.1.1", parentId: '3' },
+        { id: '5', name: "Folder 1.1.1.1.1", parentId: '4' },
+        { id: '6', name: "Folder 1.1.1.1.1.1", parentId: '5' },
+        { id: '7', name: "Folder 1.1.1.1.1.1.1", parentId: '6' },
+        { id: '8', name: "Folder 1.1.1.1.1.1.1.1", parentId: '7' },
+        { id: '9', name: "Folder 1.1.1.1.1.1.1.1.1", parentId: '8' },
+        { id: '10', name: "Folder 1.1.1.1.1.1.1.1.1.1", parentId: '9' },
+        { id: '11', name: "Folder 1.2", parentId: '1' },
+        { id: '12', name: "Folder 1.3", parentId: '1' },
+        { id: '13', name: "Folder 2", parentId: '' },
+        { id: '14', name: "Folder 2.1", parentId: '12' },
+      ]
     };
     useSelector.mockImplementation((selectorFn) => selectorFn(mockFoders));
     const mockFolderMetadata = {
-      latestId: 13,
+      latestId: 14,
       folderOptions: mockFoders.folders.map((folder) => ({
         id: folder.id,
         name: folder.name,
       })),
     };
-    const mockFolder = { id: "3", name: "Folder 3", parentId: "2" };
+    const mockFolder = { id: "14", name: "Folder 2.1", parentId: "12" };
     render(
       <FolderForm
         folder={mockFolder}
@@ -223,7 +225,7 @@ describe("FolderForm", () => {
       name: "Parent Folder (optional)",
     });
     fireEvent.mouseDown(selectElement);
-    const selectedOption = screen.getByText("Folder 1");
+    const selectedOption = screen.getByText("Folder 1.1.1.1.1.1.1.1.1.1");
     fireEvent.click(selectedOption);
     fireEvent.click(screen.getByText("Edit Folder"));
 

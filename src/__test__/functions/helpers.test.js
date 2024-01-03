@@ -1,6 +1,7 @@
 import {
   buildTree,
   getAllDependencies,
+  getDepthLevelById,
   getLatestId,
 } from "../../utils/helpers";
 
@@ -128,5 +129,38 @@ describe("testing helpers", () => {
 
     const result = getAllDependencies(data);
     expect(result).toEqual(["2", "4", "5", "3", "6"]);
+  });
+
+  test("getDepthLevelById with existing item", () => {
+    const data = [
+      { id: "1", parentId: "" },
+      { id: "2", parentId: "1" },
+      { id: "3", parentId: "1" },
+      { id: "4", parentId: "2" },
+      { id: "5", parentId: "2" },
+      { id: "6", parentId: "3" },
+      { id: "7", parentId: "" },
+    ];
+    const targetId = "4";
+    const expected = 3;
+
+    const result = getDepthLevelById(data, targetId);
+    expect(result).toEqual(expected);
+  });
+
+  test("getDepthLevelById with non-existing item", () => {
+    const data = [
+      { id: "1", parentId: "" },
+      { id: "2", parentId: "1" },
+      { id: "3", parentId: "1" },
+      { id: "4", parentId: "2" },
+      { id: "5", parentId: "2" },
+      { id: "6", parentId: "3" },
+      { id: "7", parentId: "" },
+    ];
+    const targetId = "8";
+
+    const result = getDepthLevelById(data, targetId);
+    expect(result).toBeUndefined();
   });
 });
