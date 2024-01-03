@@ -1,7 +1,7 @@
 import {
   buildTree,
   getAllDependencies,
-  getDepthLevelById,
+  getCurrentLevelOfChild,
   getLatestId,
 } from "../../utils/helpers";
 
@@ -131,7 +131,7 @@ describe("testing helpers", () => {
     expect(result).toEqual(["2", "4", "5", "3", "6"]);
   });
 
-  test("getDepthLevelById with existing item", () => {
+  test("getCurrentLevelOfChild with existing item", () => {
     const data = [
       { id: "1", parentId: "" },
       { id: "2", parentId: "1" },
@@ -144,11 +144,11 @@ describe("testing helpers", () => {
     const targetId = "4";
     const expected = 3;
 
-    const result = getDepthLevelById(data, targetId);
+    const result = getCurrentLevelOfChild(data, targetId);
     expect(result).toEqual(expected);
   });
 
-  test("getDepthLevelById with non-existing item", () => {
+  test("getCurrentLevelOfChild with non-existing item", () => {
     const data = [
       { id: "1", parentId: "" },
       { id: "2", parentId: "1" },
@@ -160,7 +160,7 @@ describe("testing helpers", () => {
     ];
     const targetId = "8";
 
-    const result = getDepthLevelById(data, targetId);
+    const result = getCurrentLevelOfChild(data, targetId);
     expect(result).toBeUndefined();
   });
 });

@@ -31,14 +31,14 @@ export const getAllDependencies = (obj) => {
   return result;
 };
 
-export const getDepthLevelById = (obj, targetId, currentLevel = 1) => {
+export const getCurrentLevelOfChild = (obj, targetId, currentLevel = 1) => {
   const item = obj.find((item) => item.id === targetId);
 
   if (item) {
     if (item.parentId === "") {
       return currentLevel;
     } else {
-      return getDepthLevelById(obj, item.parentId, currentLevel + 1);
+      return getCurrentLevelOfChild(obj, item.parentId, currentLevel + 1);
     }
   } else {
     return undefined;
