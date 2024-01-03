@@ -52,7 +52,7 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
           setSnackbarMsg("Cannot set parent folder to a child folder.");
           return;
         }
-        const depthLevel = getMaxDepthById(folder);
+        const depthLevel = getFolderDepthLevel(folder);
         if (!validateDepthLevelOfParent(parentId, depthLevel)) {
           setSnackbarMsg("The maximum folder depth level is 10.");
           return;
@@ -70,11 +70,11 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
     onClose();
   };
 
-  const getMaxDepthById = (obj, currentDepth = 1) => {
+  const getFolderDepthLevel = (obj, currentDepth = 1) => {
     let maxChildDepth = 0;
     for (const childKey in obj.children) {
       const child = obj.children[childKey];
-      const childDepth = getMaxDepthById(child, currentDepth + 1);
+      const childDepth = getFolderDepthLevel(child, currentDepth + 1);
       maxChildDepth = Math.max(maxChildDepth, childDepth);
     }
     return Math.max(currentDepth, maxChildDepth);
