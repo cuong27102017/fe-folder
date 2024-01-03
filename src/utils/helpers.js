@@ -31,14 +31,14 @@ export const getAllDependencies = (obj) => {
   return result;
 };
 
-export const getCurrentLevelOfChild = (obj, targetId, currentLevel = 1) => {
+export const getCurrentLevelOfFolder = (obj, targetId, currentLevel = 1) => {
   const item = obj.find((item) => item.id === targetId);
 
   if (item) {
     if (item.parentId === "") {
       return currentLevel;
     } else {
-      return getCurrentLevelOfChild(obj, item.parentId, currentLevel + 1);
+      return getCurrentLevelOfFolder(obj, item.parentId, currentLevel + 1);
     }
   } else {
     return undefined;

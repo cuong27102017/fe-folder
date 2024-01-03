@@ -19,7 +19,7 @@ import {
   editFolder,
 } from "../../store/slices/folderSlice";
 import { MAX_FOLDER_DEPTH } from "../../constants/FOLDER";
-import { getAllDependencies, getCurrentLevelOfChild } from "../../utils/helpers";
+import { getAllDependencies, getCurrentLevelOfFolder } from "../../utils/helpers";
 
 const FolderForm = ({ folder, folderMetadata, onClose }) => {
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
 
   const validateDepthLevelOfParent = useCallback(
     (parentId, depthLevelAdded = 1) => {
-      const depthLevel = getCurrentLevelOfChild(folders, parentId);
+      const depthLevel = getCurrentLevelOfFolder(folders, parentId);
       if (depthLevel + depthLevelAdded > MAX_FOLDER_DEPTH) {
         return false;
       }
