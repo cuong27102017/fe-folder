@@ -1,4 +1,3 @@
-// src/store/rootReducer.js
 import { combineReducers } from "@reduxjs/toolkit";
 import folderReducer from "./slices/folderSlice";
 

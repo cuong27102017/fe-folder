@@ -1,4 +1,3 @@
-// src/features/folders/folderSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import mockFolders from "../../mocks/mockData";
 

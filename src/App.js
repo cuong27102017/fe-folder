@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import { Provider } from "react-redux";
 import FolderList from "./components/folders/FolderList";
