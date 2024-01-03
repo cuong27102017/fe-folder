@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  fe-folder:
+    build: .
+    container_name: fe-folder
+    restart: always
+    ports:
+      - "3000:3000"
