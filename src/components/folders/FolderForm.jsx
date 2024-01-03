@@ -19,10 +19,7 @@ import {
   editFolder,
 } from "../../store/slices/folderSlice";
 import { MAX_FOLDER_DEPTH } from "../../constants/FOLDER";
-import {
-  getAllDependencies,
-  getDepthLevelById,
-} from "../../utils/helpers";
+import { getAllDependencies, getDepthLevelById } from "../../utils/helpers";
 
 const FolderForm = ({ folder, folderMetadata, onClose }) => {
   const dispatch = useDispatch();
@@ -37,11 +34,11 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
       setError(true);
       return;
     }
-    if (parentId !== "" && !validateDepthLevelOfParent(parentId)) {
-      setSnackbarMsg("The maximum folder depth level is 10.");
-      return;
-    }
     if (!folder) {
+      if (parentId !== "" && !validateDepthLevelOfParent(parentId)) {
+        setSnackbarMsg("The maximum folder depth level is 10.");
+        return;
+      }
       dispatch(
         addFolder({
           id: (folderMetadata.latestId + 1).toString(),
@@ -50,10 +47,18 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
         })
       );
     } else {
-      if (!validateParentFolder(folder, parentId)) {
-        setSnackbarMsg("Cannot set parent folder to a child folder.");
-        return;
+      if (parentId !== "") {
+        if (!validateParentFolder(folder, parentId)) {
+          setSnackbarMsg("Cannot set parent folder to a child folder.");
+          return;
+        }
+        const depthLevel = getMaxDepthById(folder);
+        if (!validateDepthLevelOfParent(parentId, depthLevel)) {
+          setSnackbarMsg("The maximum folder depth level is 10.");
+          return;
+        }
       }
+
       dispatch(
         editFolder({
           id: folder.id,
@@ -65,10 +70,20 @@ const FolderForm = ({ folder, folderMetadata, onClose }) => {
     onClose();
   };
 
+  const getMaxDepthById = (obj, currentDepth = 1) => {
+    let maxChildDepth = 0;
+    for (const childKey in obj.children) {
+      const child = obj.children[childKey];
+      const childDepth = getMaxDepthById(child, currentDepth + 1);
+      maxChildDepth = Math.max(maxChildDepth, childDepth);
+    }
+    return Math.max(currentDepth, maxChildDepth);
+  };
+
   const validateDepthLevelOfParent = useCallback(
-    (parentId) => {
+    (parentId, depthLevelAdded = 1) => {
       const depthLevel = getDepthLevelById(folders, parentId);
-      if (depthLevel === MAX_FOLDER_DEPTH) {
+      if (depthLevel + depthLevelAdded > MAX_FOLDER_DEPTH) {
         return false;
       }
       return true;
